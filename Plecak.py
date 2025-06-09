@@ -1,9 +1,30 @@
 import time
+import random 
 
 class Item:
     def __init__(self,weight,value):
         self.value=value
         self.weight=weight
+
+
+# funkcja tworzy plik test.txt z losowymi danymi
+#
+# def create_random_data(number, capacity=None):
+#     if capacity is None:
+#         capacity = number*100
+
+#     items = [(number, capacity)]
+#     for i in range(number):
+#         weight = random.randint(1,100)
+#         value = random.randint(1,100)
+#         items.append((weight, value))
+    
+#     lines = [f"{a} {b}" for a, b in items]
+#     result = "\n".join(lines)
+
+#     with open("test.txt", "w") as file:
+#         file.write(result)
+
 
 def knapsack_bruteforce(MyItems, index, capacity, cap, selected_items=None):
     if selected_items is None:
@@ -134,6 +155,7 @@ def createTable(lines):
 
 
 
+create_random_data(10)
 
 print("1) wpisz z pliku\n")
 print("2) z klawiatury\n")
