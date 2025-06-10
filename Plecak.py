@@ -1,4 +1,5 @@
 import time
+import sys
 
 class Item:
     def __init__(self,weight,value):
@@ -112,9 +113,14 @@ def knapsack_dynamic2(MyItems, capacity, elements, printingFlag):
 
  ##tworzenie tablicy elementów
 def from_file(filename):
-    with open(filename, "r") as f:
-        lines = f.readlines()
-    return lines
+    try:
+        with open(filename, "r") as f:
+            lines = f.readlines()
+        return lines
+    except IOError as e:
+        print(f"Problem z plikiem {e}" )
+        sys.exit()
+
 def check(val1, val2):
     return val1>0 and val2>0
 
@@ -126,13 +132,11 @@ def createTable(lines):
     for i in range(1,elements+1):
         a,b=map(int,lines[i].split())
         if not check(a,b):
-            return -1
+            print("NIe właściwe dane w pliku")
+            sys.exit()
         c=Item(int(a),int(b))
         MyItems.append(c)
     return [elements,capacity,MyItems]
-
-
-
 
 
 print("1) wpisz z pliku\n")
@@ -151,14 +155,17 @@ elif format == 2:
     capacity=int(capacity)
     if not check(elements,capacity):
         print("Niepoprawna wartosc")
-        exit
+        sys.exit()
     for i in range(elements):
         [weight,value]=input().split()
-        if not check(weight,value):
+        if not check(int(weight),int(value)):
             print("Niepoprawna wartosc")
-            exit
+            sys.exit()
         a=Item(int(weight),int(value))
         MyItems.append(a)
+else:
+    print("Nie ma takiej opcji")
+    sys.exit()
 
 print("wybór algorytmu:\n")
 print("1) bruteforce\n")
@@ -175,7 +182,7 @@ if alg == 1:
         print(f"Masa przedmiotu {i.weight}, wartosc {i.value}")
     print("Masa plecaka: ", sumWeight)
     print("Wartosc plecaka: ", value)
-if alg == 2:
+elif alg == 2:
     start = time.time()
     value=knapsack_greedy(MyItems,capacity,elements)
     end = time.time()
@@ -184,10 +191,12 @@ if alg == 2:
         print("Wynik zgodny z optymalnym")
     else:
         print("Wynik niezgodny z optymalnym")
-if alg == 3:
+elif alg == 3:
     start = time.time()
     value=knapsack_dynamic2(MyItems,capacity,elements,1)
     print("Wartosc plecaka: ",value)
     end = time.time()
-
+else:
+    print("Nie ma takiej opcji") 
+    sys.exit()
 print(f"Czas wykonania algorytmu: {start-end}")
